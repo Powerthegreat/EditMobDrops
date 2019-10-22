@@ -1,0 +1,16 @@
+[
+{
+  "modid": "editmobdrops",
+  "name": "Edit Mob Drops",
+  "description": "A mod for editing mob drops.",
+  "version": "1.0.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Powerthegreat"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
