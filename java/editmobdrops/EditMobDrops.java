@@ -1,10 +1,10 @@
 package editmobdrops;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import editmobdrops.proxies.CommonProxy;
 
 @Mod(modid=Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
@@ -17,7 +17,7 @@ public class EditMobDrops {
 	@SidedProxy(clientSide = "editmobdrops.proxies.CombinedClientProxy", serverSide = "editmobdrops.proxies.DedicatedServerProxy")
 	public static CommonProxy proxy;
 
-	// PreInit, Load, and PostInit load the mod in the correct order
+	// PreInit, Load, and PostInit init the mod in the correct order
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit(event);
@@ -25,7 +25,7 @@ public class EditMobDrops {
 
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event) {
-		proxy.load(event);
+		proxy.init(event);
 	}
 
 	@Mod.EventHandler
