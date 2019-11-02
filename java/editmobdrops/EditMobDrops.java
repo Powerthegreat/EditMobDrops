@@ -1,13 +1,13 @@
 package editmobdrops;
 
+import editmobdrops.proxies.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import editmobdrops.proxies.CommonProxy;
 
-@Mod(modid=Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EditMobDrops {
 	// Instance of the mod used by forge
 	@Mod.Instance

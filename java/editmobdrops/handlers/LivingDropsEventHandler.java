@@ -10,11 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.handshake.FMLHandshakeMessage;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class LivingDropsEventHandler {
 	Random random = new Random();
 
 	// A method to handle LivingDropsEvents
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onMobDrops(LivingDropsEvent event) {
 		// Setting up variables to make things easier
 		EntityLivingBase entityKilled = event.getEntityLiving();
