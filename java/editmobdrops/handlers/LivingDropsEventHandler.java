@@ -1,5 +1,6 @@
 package editmobdrops.handlers;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +23,7 @@ public class LivingDropsEventHandler {
 	Random random = new Random();
 
 	// A method to handle LivingDropsEvents
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onMobDrops(LivingDropsEvent event) {
 		// Setting up variables to make things easier
 		EntityLivingBase entityKilled = (EntityLivingBase) event.entity;

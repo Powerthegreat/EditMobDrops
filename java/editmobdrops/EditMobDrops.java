@@ -7,7 +7,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import editmobdrops.proxies.CommonProxy;
 
-@Mod(modid=Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EditMobDrops {
 	// Instance of the mod used by forge
 	@Mod.Instance
