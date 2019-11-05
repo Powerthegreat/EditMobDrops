@@ -136,7 +136,7 @@ public class LivingDropsEventHandler {
 		if (minStack < maxStack) {
 			return random.nextInt(1 + maxStack - minStack) + minStack;
 		} else {
-			return 1;
+			return maxStack;
 		}
 	}
 }
