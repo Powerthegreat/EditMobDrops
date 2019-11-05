@@ -28,6 +28,7 @@ public class ConfigHandler {
 	}
 
 	public static void reloadConfig() {
+		config = new Configuration(config.getConfigFile());
 		loadConfiguration();
 	}
 

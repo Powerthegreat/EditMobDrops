@@ -1,11 +1,13 @@
 package editmobdrops;
 
+import editmobdrops.commands.ReloadConfigCommand;
 import editmobdrops.proxies.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EditMobDrops {
@@ -31,5 +33,10 @@ public class EditMobDrops {
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
+	}
+
+	@Mod.EventHandler
+	public void onServerStart(FMLServerStartingEvent event) {
+		event.registerServerCommand(new ReloadConfigCommand());
 	}
 }
