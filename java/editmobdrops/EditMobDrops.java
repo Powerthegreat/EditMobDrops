@@ -5,6 +5,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import editmobdrops.commands.ReloadConfigCommand;
 import editmobdrops.proxies.CommonProxy;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
@@ -31,5 +33,10 @@ public class EditMobDrops {
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
+	}
+
+	@Mod.EventHandler
+	public void onServerStart(FMLServerStartingEvent event) {
+		event.registerServerCommand(new ReloadConfigCommand());
 	}
 }
