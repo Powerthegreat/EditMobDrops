@@ -12,6 +12,7 @@ public class ConfigHandler {
 	public static Boolean debugMode;
 	public static String[] itemsToAdd;
 	public static String[] mobGroups;
+	public static String[] mobsToClear;
 
 	public static void init(File configFile) {
 		if (config == null) {
@@ -36,6 +37,7 @@ public class ConfigHandler {
 		debugMode = config.getBoolean("Debug Mode", Configuration.CATEGORY_GENERAL, false, "If debug mode is active, the mod will print the name of any mob killed by the player to console");
 		itemsToAdd = config.getStringList("Items To Add", Configuration.CATEGORY_GENERAL, new String[]{}, "Items to add, in the form modid:itemName:[minStackSize]:[maxStackSize]:[metadata]:[universalChance]:[monsterChance]:[bossChance]:[group1Chance]:[group2Chance]...\nChances are %");
 		mobGroups = config.getStringList("Mob Groups", Configuration.CATEGORY_GENERAL, new String[]{}, "Mob groups, in the form [EntityName]:[EntityName]...");
+		mobsToClear = config.getStringList("Mobs to Clear", Configuration.CATEGORY_GENERAL, new String[]{}, "Mobs to clear existing drops from");
 		if (config.hasChanged()) {
 			config.save();
 		}

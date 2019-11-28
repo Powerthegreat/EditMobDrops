@@ -34,6 +34,11 @@ public class LivingDropsEventHandler {
 			System.out.println("[EditMobDrops]: Mob killed: " + entityKilled.getClass().getSimpleName());
 		}
 
+		for (String mobToClear : ConfigHandler.mobsToClear) {
+			if (entityKilled.getClass().getSimpleName().equals(mobToClear))
+				event.drops.clear();
+		}
+
 		System.out.println("[EditMobDrops]: Adding items");
 		for (String itemToAdd : ConfigHandler.itemsToAdd) {
 			// Storing the data of the current item in a few different variables
