@@ -56,7 +56,7 @@ public class LivingDropsEventHandler {
 			String name = currentItem.get(1);
 			int metadata = 0;
 			try {
-				metadata = Integer.parseInt(currentItem.get(4));
+				metadata = Integer.parseInt(currentItem.get(2));
 			} catch (NumberFormatException ignored) {
 
 			}
@@ -80,14 +80,14 @@ public class LivingDropsEventHandler {
 			// Universal chance
 			if (random.nextDouble() * 100 < currentItemChances.get(0)) {
 				// Adding the item
-				itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(2), currentItem.get(3)), metadata));
+				itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
 			}
 
 			// Monster chance
 			if (entityKilled instanceof EntityMob || entityKilled instanceof EntityDragon || entityKilled instanceof EntityGhast || entityKilled instanceof EntitySlime) {
 				if (random.nextDouble() * 100 < currentItemChances.get(1)) {
 					// Adding the item
-					itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(2), currentItem.get(3)), metadata));
+					itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
 				}
 			}
 
@@ -95,7 +95,7 @@ public class LivingDropsEventHandler {
 			if (!entityKilled.isNonBoss()) {
 				if (random.nextDouble() * 100 < currentItemChances.get(2)) {
 					// Adding the item
-					itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(2), currentItem.get(3)), metadata));
+					itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
 				}
 			}
 
@@ -108,7 +108,7 @@ public class LivingDropsEventHandler {
 							if (random.nextDouble() * 100 < currentItemChances.get(i + 3)) {
 								// Adding the item
 								System.out.println("Adding " + modid + ":" + name);
-								itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(2), currentItem.get(3)), metadata));
+								itemsToDrop.add(new ItemStack(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(modid, name)), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
 							}
 						}
 					}
