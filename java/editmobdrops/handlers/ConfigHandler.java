@@ -13,6 +13,7 @@ public class ConfigHandler {
 	public static String[] itemsToAdd;
 	public static String[] mobGroups;
 	public static String[] mobsToClear;
+	public static String[] singleMobItems;
 
 	public static void init(File configFile) {
 		if (config == null) {
@@ -35,9 +36,10 @@ public class ConfigHandler {
 
 	private static void loadConfiguration() {
 		debugMode = config.getBoolean("Debug Mode", Configuration.CATEGORY_GENERAL, false, "If debug mode is active, the mod will print the name of any mob killed by the player to console");
-		itemsToAdd = config.getStringList("Items To Add", Configuration.CATEGORY_GENERAL, new String[]{}, "Items to add, in the form modid:itemName:[metadata]:[minStackSize]:[maxStackSize]:[universalChance]:[monsterChance]:[bossChance]:[group1Chance]:[group2Chance]...\nChances are %");
+		itemsToAdd = config.getStringList("Items To Add", Configuration.CATEGORY_GENERAL, new String[]{}, "Items to add, in the form modid:itemName:[metadata]:[nbtfile]:[minStackSize]:[maxStackSize]:[universalChance]:[monsterChance]:[bossChance]:[group1Chance]:[group2Chance]...\nChances are %\nNBT File is a json file in the \"editmobdrops\" folder here in config (leave blank for none)");
 		mobGroups = config.getStringList("Mob Groups", Configuration.CATEGORY_GENERAL, new String[]{}, "Mob groups, in the form [EntityName]:[EntityName]...");
 		mobsToClear = config.getStringList("Mobs to Clear", Configuration.CATEGORY_GENERAL, new String[]{}, "Mobs to clear existing drops from");
+		singleMobItems = config.getStringList("Single Mob Items", Configuration.CATEGORY_GENERAL, new String[]{}, "Single mob items, in the form EntityName:modid:itemName:[metadata]:[nbtfile]:[minStackSize]:[maxStackSize]:[chance]");
 		if (config.hasChanged()) {
 			config.save();
 		}

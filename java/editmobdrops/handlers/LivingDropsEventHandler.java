@@ -12,8 +12,16 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +35,7 @@ public class LivingDropsEventHandler {
 	public void onMobDrops(LivingDropsEvent event) {
 		// Setting up variables to make things easier
 		EntityLivingBase entityKilled = (EntityLivingBase) event.entity;
-		List<ItemStack> itemsToDrop = new ArrayList<ItemStack>();
+		List<ItemStack> itemsToDrop = new ArrayList<>();
 
 		// If debug mode is active, print the class name of the entity that was killed
 		if (ConfigHandler.debugMode && event.source.getSourceOfDamage() instanceof EntityPlayer) {
@@ -42,8 +50,9 @@ public class LivingDropsEventHandler {
 		System.out.println("[EditMobDrops]: Adding items");
 		for (String itemToAdd : ConfigHandler.itemsToAdd) {
 			// Storing the data of the current item in a few different variables
-			List<String> currentItem = new ArrayList<String>(Arrays.asList(itemToAdd.split("\\s*:\\s*")));
-			if (currentItem.size() < 6) {
+			List<String> currentItem = new ArrayList<>(Arrays.asList(itemToAdd.split("\\s*:\\s*")));
+			if (currentItem.size() < 7) {
+				currentItem.add("");
 				currentItem.add("");
 				currentItem.add("");
 				currentItem.add("");
@@ -60,8 +69,8 @@ public class LivingDropsEventHandler {
 
 			}
 			// Getting the chances for each mob group into a list
-			List<Double> currentItemChances = new ArrayList<Double>();
-			for (int i = 5; i < currentItem.size(); i++) {
+			List<Double> currentItemChances = new ArrayList<>();
+			for (int i = 6; i < currentItem.size(); i++) {
 				try {
 					currentItemChances.add(Double.parseDouble(currentItem.get(i)));
 				} catch (NumberFormatException e) {
@@ -79,14 +88,18 @@ public class LivingDropsEventHandler {
 			// Universal chance
 			if (random.nextDouble() * 100 < currentItemChances.get(0)) {
 				// Adding the item
-				itemsToDrop.add(new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
+				ItemStack itemstack = new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(4), currentItem.get(5)), metadata);
+				parseNBTFile(itemstack, currentItem.get(3));
+				itemsToDrop.add(itemstack);
 			}
 
 			// Monster chance
 			if (entityKilled instanceof EntityMob || entityKilled instanceof EntityDragon || entityKilled instanceof EntityGhast || entityKilled instanceof EntitySlime) {
 				if (random.nextDouble() * 100 < currentItemChances.get(1)) {
 					// Adding the item
-					itemsToDrop.add(new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
+					ItemStack itemstack = new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(4), currentItem.get(5)), metadata);
+					parseNBTFile(itemstack, currentItem.get(3));
+					itemsToDrop.add(itemstack);
 				}
 			}
 
@@ -94,7 +107,9 @@ public class LivingDropsEventHandler {
 			if (entityKilled instanceof IBossDisplayData) {
 				if (random.nextDouble() * 100 < currentItemChances.get(2)) {
 					// Adding the item
-					itemsToDrop.add(new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
+					ItemStack itemstack = new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(4), currentItem.get(5)), metadata);
+					parseNBTFile(itemstack, currentItem.get(3));
+					itemsToDrop.add(itemstack);
 				}
 			}
 
@@ -107,10 +122,39 @@ public class LivingDropsEventHandler {
 							if (random.nextDouble() * 100 < currentItemChances.get(i + 3)) {
 								// Adding the item
 								System.out.println("Adding " + modid + ":" + name);
-								itemsToDrop.add(new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(3), currentItem.get(4)), metadata));
+								ItemStack itemstack = new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(4), currentItem.get(5)), metadata);
+								parseNBTFile(itemstack, currentItem.get(3));
+								itemsToDrop.add(itemstack);
 							}
 						}
 					}
+				}
+			}
+		}
+
+		// Single mob items
+		for (int i = 0; i < ConfigHandler.singleMobItems.length; i++) {
+			List<String> singleMobItem = new ArrayList<>(Arrays.asList(ConfigHandler.singleMobItems[i].split("\\s*:\\s*")));
+			if (entityKilled.getClass().getSimpleName().equals(singleMobItem.get(0))) {
+				int metadata = 0;
+				try {
+					metadata = Integer.parseInt(singleMobItem.get(3));
+				} catch (NumberFormatException ignored) {
+
+				}
+				double chance = 0.0;
+				try {
+					chance = Double.parseDouble(singleMobItem.get(7));
+				} catch (NumberFormatException ignored) {
+
+				}
+
+				if (random.nextDouble() * 100 < chance) {
+					// Adding the item
+					System.out.println("Adding " + singleMobItem.get(1) + ":" + singleMobItem.get(2));
+					ItemStack itemstack = new ItemStack(GameRegistry.findItem(singleMobItem.get(1), singleMobItem.get(2)), randomStackSize(singleMobItem.get(5), singleMobItem.get(6)), metadata);
+					parseNBTFile(itemstack, singleMobItem.get(4));
+					itemsToDrop.add(itemstack);
 				}
 			}
 		}
@@ -119,6 +163,26 @@ public class LivingDropsEventHandler {
 		for (ItemStack item : itemsToDrop) {
 			event.drops.add(new EntityItem(event.entityLiving.worldObj, entityKilled.posX, entityKilled.posY, entityKilled.posZ, item));
 		}
+	}
+
+	private ItemStack parseNBTFile(ItemStack itemstack, String nbtFile) {
+		if (!nbtFile.isEmpty()) {
+			try {
+				File file = new File(ConfigHandler.config.getConfigFile().getParentFile(), nbtFile + ".json");
+				if (file.exists() && file.canRead()) {
+					String fileContents = new String(Files.readAllBytes(Paths.get(file.toString())), StandardCharsets.US_ASCII);
+					itemstack.setTagCompound((NBTTagCompound) JsonToNBT.func_150315_a(fileContents));
+				} else {
+					System.out.println("NBT file " + nbtFile + ".json not found");
+				}
+			} catch (NBTException e) {
+				System.out.println("NBT file " + nbtFile + ".json not valid");
+			} catch (IOException e) {
+				System.out.println("Couldn't read from NBT file " + nbtFile + ".json");
+			}
+		}
+
+		return itemstack;
 	}
 
 	private int randomStackSize(String minStackSize, String maxStackSize) {

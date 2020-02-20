@@ -9,9 +9,11 @@ import editmobdrops.handlers.ConfigHandler;
 import editmobdrops.handlers.LivingDropsEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.io.File;
+
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
-		ConfigHandler.init(event.getSuggestedConfigurationFile());
+		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "\\editmobdrops\\editmobdrops.cfg"));
 	}
 
 	public void load(FMLInitializationEvent event) {
