@@ -13,7 +13,7 @@ import java.io.File;
 
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
-		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "\\editmobdrops\\editmobdrops.cfg"));
+		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/editmobdrops/editmobdrops.cfg"));
 	}
 
 	public void init(FMLInitializationEvent event) {
