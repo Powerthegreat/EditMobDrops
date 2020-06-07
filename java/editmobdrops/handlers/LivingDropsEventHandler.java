@@ -47,7 +47,6 @@ public class LivingDropsEventHandler {
 				event.getDrops().clear();
 		}
 
-		System.out.println("[EditMobDrops]: Adding items");
 		for (String itemToAdd : ConfigHandler.itemsToAdd) {
 			// Storing the data of the current item in a few different variables
 			List<String> currentItem = new ArrayList<>(Arrays.asList(itemToAdd.split("\\s*:\\s*")));
@@ -160,6 +159,8 @@ public class LivingDropsEventHandler {
 		}
 
 		// Adding the items
+		if (itemsToDrop.size() > 0)
+			System.out.println("[EditMobDrops]: Adding items");
 		for (ItemStack item : itemsToDrop) {
 			event.getDrops().add(new EntityItem(event.getEntityLiving().getEntityWorld(), entityKilled.posX, entityKilled.posY, entityKilled.posZ, item));
 		}
