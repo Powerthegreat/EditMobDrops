@@ -40,6 +40,10 @@ public class LivingDropsEventHandler {
 		// If debug mode is active, print the class name of the entity that was killed
 		if (ConfigHandler.debugMode && event.source.getSourceOfDamage() instanceof EntityPlayer) {
 			System.out.println("[EditMobDrops]: Mob killed: " + entityKilled.getClass().getSimpleName());
+
+			for (int i = 0; i < event.drops.size(); i++) {
+				System.out.println("[EditMobDrops]: Mob normally drops " + event.drops.get(i).getEntityItem().getDisplayName());
+			}
 		}
 
 		for (String mobToClear : ConfigHandler.mobsToClear) {
@@ -120,7 +124,8 @@ public class LivingDropsEventHandler {
 						if (i + 3 < currentItemChances.size()) {
 							if (random.nextDouble() * 100 < currentItemChances.get(i + 3)) {
 								// Adding the item
-								System.out.println("Adding " + modid + ":" + name);
+								if (ConfigHandler.debugMode)
+									System.out.println("Adding " + modid + ":" + name);
 								ItemStack itemstack = new ItemStack(GameRegistry.findItem(modid, name), randomStackSize(currentItem.get(4), currentItem.get(5)), metadata);
 								parseNBTFile(itemstack, currentItem.get(3));
 								itemsToDrop.add(itemstack);
@@ -150,7 +155,8 @@ public class LivingDropsEventHandler {
 
 				if (random.nextDouble() * 100 < chance) {
 					// Adding the item
-					System.out.println("Adding " + singleMobItem.get(1) + ":" + singleMobItem.get(2));
+					if (ConfigHandler.debugMode)
+						System.out.println("Adding " + singleMobItem.get(1) + ":" + singleMobItem.get(2));
 					ItemStack itemstack = new ItemStack(GameRegistry.findItem(singleMobItem.get(1), singleMobItem.get(2)), randomStackSize(singleMobItem.get(5), singleMobItem.get(6)), metadata);
 					parseNBTFile(itemstack, singleMobItem.get(4));
 					itemsToDrop.add(itemstack);
@@ -159,7 +165,7 @@ public class LivingDropsEventHandler {
 		}
 
 		// Adding the items
-		if (itemsToDrop.size() > 0)
+		if (itemsToDrop.size() > 0 && ConfigHandler.debugMode)
 			System.out.println("[EditMobDrops]: Adding items");
 		for (ItemStack item : itemsToDrop) {
 			event.drops.add(new EntityItem(event.entityLiving.worldObj, entityKilled.posX, entityKilled.posY, entityKilled.posZ, item));
