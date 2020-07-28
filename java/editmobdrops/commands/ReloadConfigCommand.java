@@ -3,7 +3,9 @@ package editmobdrops.commands;
 import editmobdrops.handlers.ConfigHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
 import java.util.List;
@@ -23,7 +25,11 @@ public class ReloadConfigCommand extends CommandBase {
 
 		if (args[0].equals("reloadconfig")) {
 			ConfigHandler.reloadConfig();
-			getCommandSenderAsPlayer(sender).addChatMessage(new ChatComponentText("Config reloaded"));
+			try {
+				getCommandSenderAsPlayer(sender).addChatMessage(new ChatComponentText("Config reloaded"));
+			} catch (PlayerNotFoundException ignored) {
+				MinecraftServer.getServer().logInfo("Config reloaded");
+			}
 		}
 	}
 

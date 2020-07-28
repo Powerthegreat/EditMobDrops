@@ -22,13 +22,6 @@ public class ConfigHandler {
 		}
 	}
 
-	@SubscribeEvent
-	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.modID.equalsIgnoreCase(Reference.MODID)) {
-			loadConfiguration();
-		}
-	}
-
 	public static void reloadConfig() {
 		config = new Configuration(config.getConfigFile());
 		loadConfiguration();
@@ -42,6 +35,13 @@ public class ConfigHandler {
 		singleMobItems = config.getStringList("Single Mob Items", Configuration.CATEGORY_GENERAL, new String[]{}, "Single mob items, in the form EntityName:modid:itemName:[metadata]:[nbtfile]:[minStackSize]:[maxStackSize]:[chance]");
 		if (config.hasChanged()) {
 			config.save();
+		}
+	}
+
+	@SubscribeEvent
+	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+		if (event.modID.equalsIgnoreCase(Reference.MODID)) {
+			loadConfiguration();
 		}
 	}
 }
