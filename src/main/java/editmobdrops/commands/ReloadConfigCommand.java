@@ -26,9 +26,7 @@ public class ReloadConfigCommand extends CommandBase {
 			ConfigHandler.reloadConfig();
 			try {
 				getCommandSenderAsPlayer(sender).sendMessage(new TextComponentString("Config reloaded"));
-			}
-			catch (PlayerNotFoundException ignored)
-			{
+			} catch (PlayerNotFoundException ignored) {
 				server.logInfo("Config reloaded");
 			}
 		}
