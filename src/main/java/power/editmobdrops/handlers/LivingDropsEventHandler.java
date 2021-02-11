@@ -153,7 +153,7 @@ public final class LivingDropsEventHandler {
 			System.out.println("[EditMobDrops]: Adding items");
 		for (ItemStack item : itemsToDrop) {
 			if (item != null)
-				event.getDrops().add(new ItemEntity(event.getEntityLiving().getEntityWorld(), entityKilled.getPosX(), entityKilled.getPosY(), entityKilled.getPosZ(), item));
+				event.getDrops().add(new ItemEntity(event.getEntityLiving().getEntityWorld(), entityKilled.getPosition().getX(), entityKilled.getPosition().getY(), entityKilled.getPosition().getZ(), item));
 		}
 	}
 

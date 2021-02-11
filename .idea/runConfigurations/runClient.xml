@@ -7,16 +7,16 @@
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run"/>
     <module name="EditMobDrops.main"/>
     <envs>
-      <env name="MOD_CLASSES" value="examplemod%%$PROJECT_DIR$/build/resources/main:examplemod%%$PROJECT_DIR$/build/classes/java/main"/>
-      <env name="MCP_MAPPINGS" value="snapshot_20200514-1.15.1"/>
-      <env name="MCP_VERSION" value="20200515.085601"/>
-      <env name="FORGE_VERSION" value="31.2.43"/>
-      <env name="assetIndex" value="1.15"/>
+      <env name="MOD_CLASSES" value="editmobdrops%%$PROJECT_DIR$/build/resources/main:editmobdrops%%$PROJECT_DIR$/build/classes/java/main"/>
+      <env name="MCP_MAPPINGS" value="snapshot_20190719-1.14.3"/>
+      <env name="MCP_VERSION" value="20190829.143755"/>
+      <env name="FORGE_VERSION" value="28.2.23"/>
+      <env name="assetIndex" value="1.12"/>
       <env name="assetDirectory" value="/mnt/hdd/home/erelyn/.gradle/caches/forge_gradle/assets"/>
       <env name="nativesDirectory" value="$PROJECT_DIR$/build/natives"/>
       <env name="FORGE_GROUP" value="net.minecraftforge"/>
       <env name="target" value="fmluserdevclient"/>
-      <env name="MC_VERSION" value="1.15.2"/>
+      <env name="MC_VERSION" value="1.14.4"/>
     </envs>
     <method v="2">
       <option enabled="true" name="Make"/>
