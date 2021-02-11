@@ -111,7 +111,7 @@ public final class LivingDropsEventHandler {
 				for (String mob : mobGroup) {
 					if (entityKilled.getClass().getSimpleName().equals(mob)) {
 						if (i + 3 < currentItemChances.size()) {
-							if (random.nextDouble() * 100 < currentItemChances.get(i + 2)) {
+							if (random.nextDouble() * 100 < currentItemChances.get(i + 3)) {
 								// Adding the item
 								if (ConfigHandler.debugMode)
 									System.out.println("Adding " + modid + ":" + name);
