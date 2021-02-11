@@ -3,7 +3,7 @@ loaderVersion="[28,)"
 license="GNU GPLv3"
 [[mods]]
 modId="editmobdrops"
-version="1.3.2"
+version="1.3.3"
 displayName="Edit Mob Drops"
 authors="Powerthegreat"
 description='''A mod for editing mob drops.'''
