@@ -1,4 +1,6 @@
 .gradle/
+.idea/*
+!.idea/runConfigurations/
 logs/
 out/
 run/
