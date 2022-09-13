@@ -1,7 +1,6 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        maven { url = 'https://maven.minecraftforge.net/' }
         mavenCentral()
     }
     dependencies {
@@ -37,7 +36,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 }
 
 jar {
@@ -54,7 +53,7 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar')
+jar.finalizedBy('reobfJar') 
 
 publishing {
     publications {
