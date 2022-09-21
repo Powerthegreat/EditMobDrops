@@ -22,8 +22,6 @@ public class EditMobDrops {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/editmobdrops/editmobdrops.cfg"));
-		System.out.println(ConfigHandler.debugMode);
-		System.out.println("nya");
 	}
 
 	@Mod.EventHandler
