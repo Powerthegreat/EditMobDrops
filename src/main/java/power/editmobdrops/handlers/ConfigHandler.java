@@ -89,7 +89,7 @@ public final class ConfigHandler {
 
 		public EditMobDropsConfig(ForgeConfigSpec.Builder builder) {
 			debugMode = builder
-					.comment("If debug mode is active, the mod will print the name of any mob killed by the player to console, and will log when items are dropped")
+					.comment("If debug mode is active, the mod will log when items are dropped")
 					.translation(Reference.MODID + ".config.debugMode")
 					.define("debugMode", false);
 
