@@ -1,13 +1,18 @@
 package power.editmobdrops.handlers;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
+import power.editmobdrops.AddedDrop;
 import power.editmobdrops.Reference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Reference.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -15,10 +20,10 @@ public final class ConfigHandler {
 	public static final EditMobDropsConfig CONFIG;
 	public static final ForgeConfigSpec CONFIG_SPEC;
 	public static Boolean debugMode;
-	public static List<String> itemsToAdd;
-	public static List<String> mobGroups;
-	public static List<String> mobsToClear;
-	public static List<String> singleMobItems;
+	public static List<AddedDrop> itemsToAdd;
+	public static List<List<EntityType<?>>> mobGroups;
+	public static List<EntityType<?>> mobsToClear;
+	public static List<AddedDrop> singleMobItems;
 
 	static {
 		final Pair<EditMobDropsConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(EditMobDropsConfig::new);
@@ -28,10 +33,44 @@ public final class ConfigHandler {
 
 	public static void bakeConfig() {
 		debugMode = CONFIG.debugMode.get();
-		itemsToAdd = CONFIG.itemsToAdd.get();
-		mobGroups = CONFIG.mobGroups.get();
-		mobsToClear = CONFIG.mobsToClear.get();
-		singleMobItems = CONFIG.singleMobItems.get();
+		List<String> rawItemsToAdd = CONFIG.itemsToAdd.get();
+		List<String> rawMobGroups = CONFIG.mobGroups.get();
+		List<String> rawMobsToClear = CONFIG.mobsToClear.get();
+		List<String> rawSingleMobItems = CONFIG.singleMobItems.get();
+
+		itemsToAdd = new ArrayList<>();
+		for (String itemToAdd : rawItemsToAdd) {
+			AddedDrop newDrop = new AddedDrop(itemToAdd, false);
+			if (newDrop.valid) {
+				itemsToAdd.add(newDrop);
+			}
+		}
+
+		mobGroups = new ArrayList<>();
+		for (String rawMobGroup : rawMobGroups) {
+			List<String> rawMobGroupSplit = new ArrayList<>(Arrays.asList(rawMobGroup.split("\\s*:\\s*")));
+			List<EntityType<?>> currentGroup = new ArrayList<>();
+			for (int i = 0; i < rawMobGroupSplit.size() - 1; i += 2) {
+				currentGroup.add(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(rawMobGroupSplit.get(i), rawMobGroupSplit.get(i + 1))));
+			}
+			mobGroups.add(currentGroup);
+		}
+
+		mobsToClear = new ArrayList<>();
+		for (String rawMobToClear : rawMobsToClear) {
+			List<String> rawMobToClearSplit = new ArrayList<>(Arrays.asList(rawMobToClear.split("\\s*:\\s*")));
+			for (int i = 0; i < rawMobToClearSplit.size() - 1; i += 2) {
+				mobsToClear.add(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(rawMobToClearSplit.get(i), rawMobToClearSplit.get(i + 1))));
+			}
+		}
+
+		singleMobItems = new ArrayList<>();
+		for (String itemToAdd : rawSingleMobItems) {
+			AddedDrop newDrop = new AddedDrop(itemToAdd, true);
+			if (newDrop.valid) {
+				singleMobItems.add(newDrop);
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -40,7 +79,6 @@ public final class ConfigHandler {
 			bakeConfig();
 		}
 	}
-
 
 	public static class EditMobDropsConfig {
 		public final ForgeConfigSpec.BooleanValue debugMode;
@@ -56,12 +94,12 @@ public final class ConfigHandler {
 					.define("debugMode", false);
 
 			itemsToAdd = builder
-					.comment("Items to add, in the form modid:itemName:[nbtfile]:[minStackSize]:[maxStackSize]:[universalChance]:[monsterChance]:[bossChance]:[group1Chance]:[group2Chance]...\nChances are %\nNBT File is a json file in the \"editmobdrops\" folder here in config (leave blank for none)")
+					.comment("Items to add, in the form modid:itemName:[nbtfile]:minStackSize:maxStackSize:universalChance:[monsterChance]:[bossChance]:[group1Chance]:[group2Chance]...\nChances are %\nNBT File is a json file in the \"editmobdrops\" folder here in config (leave blank for none)")
 					.translation(Reference.MODID + ".config.itemsToAdd")
 					.define("itemsToAdd", new ArrayList<>());
 
 			mobGroups = builder
-					.comment("Mob groups, in the form [EntityName]:[EntityName]...")
+					.comment("Mob groups, in the form [EntityModid]:[EntityName]:[EntityModid]:[EntityName]...")
 					.translation(Reference.MODID + ".config.mobGroups")
 					.define("mobGroups", new ArrayList<>());
 
@@ -71,39 +109,9 @@ public final class ConfigHandler {
 					.define("mobsToClear", new ArrayList<>());
 
 			singleMobItems = builder
-					.comment("Single mob items, in the form EntityName:modid:itemName:[nbtfile]:[minStackSize]:[maxStackSize]:[chance]")
+					.comment("Single mob items, in the form EntityModid:EntityName:modid:itemName:[nbtfile]:minStackSize:maxStackSize:chance")
 					.translation(Reference.MODID + ".config.singleMobItems")
 					.define("singleMobItems", new ArrayList<>());
 		}
 	}
-
-	/*public static void init(File configFile) {
-		if (config == null) {
-			config = new Configuration(configFile);
-			loadConfiguration();
-		}
-	}
-
-	public static void reloadConfig() {
-		config = new Configuration(config.getConfigFile());
-		loadConfiguration();
-	}
-
-	private static void loadConfiguration() {
-		debugMode = config.getBoolean("Debug Mode", Configuration.CATEGORY_GENERAL, false, "If debug mode is active, the mod will print the name of any mob killed by the player to console, and will log when items are dropped");
-		itemsToAdd = config.getStringList("Items To Add", Configuration.CATEGORY_GENERAL, new String[]{}, "Items to add, in the form modid:itemName:[metadata]:[nbtfile]:[minStackSize]:[maxStackSize]:[universalChance]:[monsterChance]:[bossChance]:[group1Chance]:[group2Chance]...\nChances are %\nNBT File is a json file in the \"editmobdrops\" folder here in config (leave blank for none)");
-		mobGroups = config.getStringList("Mob Groups", Configuration.CATEGORY_GENERAL, new String[]{}, "Mob groups, in the form [EntityName]:[EntityName]...");
-		mobsToClear = config.getStringList("Mobs to Clear", Configuration.CATEGORY_GENERAL, new String[]{}, "Mobs to clear existing drops from");
-		singleMobItems = config.getStringList("Single Mob Items", Configuration.CATEGORY_GENERAL, new String[]{}, "Single mob items, in the form EntityName:modid:itemName:[metadata]:[nbtfile]:[minStackSize]:[maxStackSize]:[chance]");
-		if (config.hasChanged()) {
-			config.save();
-		}
-	}
-
-	@SubscribeEvent
-	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equalsIgnoreCase(Reference.MODID)) {
-			loadConfiguration();
-		}
-	}*/
 }

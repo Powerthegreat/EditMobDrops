@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.3.3'
+version = '1.4.0'
 group = 'power.editmobdrops'
 archivesBaseName = 'editmobdrops-1.16.5'
 
