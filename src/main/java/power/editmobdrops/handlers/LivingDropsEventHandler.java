@@ -42,7 +42,9 @@ public final class LivingDropsEventHandler {
 					System.out.println("Adding " + itemToAdd.item);
 				}
 				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
-				itemstack.setTag(itemToAdd.nbtTag);
+				if (itemToAdd.nbtTag != null) {
+					itemstack.setTag(itemToAdd.nbtTag);
+				}
 				itemsToDrop.add(itemstack);
 			}
 
@@ -54,7 +56,9 @@ public final class LivingDropsEventHandler {
 						System.out.println("Adding " + itemToAdd.item);
 					}
 					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
-					itemstack.setTag(itemToAdd.nbtTag);
+					if (itemToAdd.nbtTag != null) {
+						itemstack.setTag(itemToAdd.nbtTag);
+					}
 					itemsToDrop.add(itemstack);
 				}
 			}
@@ -67,7 +71,9 @@ public final class LivingDropsEventHandler {
 						System.out.println("Adding " + itemToAdd.item);
 					}
 					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
-					itemstack.setTag(itemToAdd.nbtTag);
+					if (itemToAdd.nbtTag != null) {
+						itemstack.setTag(itemToAdd.nbtTag);
+					}
 					itemsToDrop.add(itemstack);
 				}
 			}
@@ -82,7 +88,9 @@ public final class LivingDropsEventHandler {
 								System.out.println("Adding " + itemToAdd.item);
 							}
 							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
-							itemstack.setTag(itemToAdd.nbtTag);
+							if (itemToAdd.nbtTag != null) {
+								itemstack.setTag(itemToAdd.nbtTag);
+							}
 							itemsToDrop.add(itemstack);
 						}
 					}
@@ -98,7 +106,9 @@ public final class LivingDropsEventHandler {
 					if (ConfigHandler.debugMode)
 						System.out.println("Adding " + singleMobItem.item);
 					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem));
-					itemstack.setTag(singleMobItem.nbtTag);
+					if (singleMobItem.nbtTag != null) {
+						itemstack.setTag(singleMobItem.nbtTag);
+					}
 					itemsToDrop.add(itemstack);
 				}
 			}
