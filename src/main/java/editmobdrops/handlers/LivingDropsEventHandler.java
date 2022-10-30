@@ -47,7 +47,9 @@ public class LivingDropsEventHandler {
 					System.out.println("Adding " + itemToAdd.item);
 				}
 				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
-				itemstack.setTagCompound(itemToAdd.nbtTag);
+				if (itemToAdd.nbtTag != null) {
+					itemstack.setTagCompound(itemToAdd.nbtTag);
+				}
 				itemsToDrop.add(itemstack);
 			}
 
@@ -59,7 +61,9 @@ public class LivingDropsEventHandler {
 						System.out.println("Adding " + itemToAdd.item);
 					}
 					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
-					itemstack.setTagCompound(itemToAdd.nbtTag);
+					if (itemToAdd.nbtTag != null) {
+						itemstack.setTagCompound(itemToAdd.nbtTag);
+					}
 					itemsToDrop.add(itemstack);
 				}
 			}
@@ -72,7 +76,9 @@ public class LivingDropsEventHandler {
 						System.out.println("Adding " + itemToAdd.item);
 					}
 					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
-					itemstack.setTagCompound(itemToAdd.nbtTag);
+					if (itemToAdd.nbtTag != null) {
+						itemstack.setTagCompound(itemToAdd.nbtTag);
+					}
 					itemsToDrop.add(itemstack);
 				}
 			}
@@ -87,7 +93,9 @@ public class LivingDropsEventHandler {
 								System.out.println("Adding " + itemToAdd.item);
 							}
 							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
-							itemstack.setTagCompound(itemToAdd.nbtTag);
+							if (itemToAdd.nbtTag != null) {
+								itemstack.setTagCompound(itemToAdd.nbtTag);
+							}
 							itemsToDrop.add(itemstack);
 						}
 					}
@@ -103,7 +111,9 @@ public class LivingDropsEventHandler {
 					if (ConfigHandler.debugMode)
 						System.out.println("Adding " + singleMobItem.item);
 					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem), singleMobItem.metadata);
-					itemstack.setTagCompound(singleMobItem.nbtTag);
+					if (singleMobItem.nbtTag != null) {
+						itemstack.setTagCompound(singleMobItem.nbtTag);
+					}
 					itemsToDrop.add(itemstack);
 				}
 			}

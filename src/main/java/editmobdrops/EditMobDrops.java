@@ -17,11 +17,12 @@ public class EditMobDrops {
 	// Instance of the mod used by forge
 	@Mod.Instance
 	public static EditMobDrops instance;
+	public static File suggestedConfigFile;
 
 	// PreInit, Load, and PostInit init the mod in the correct order
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/editmobdrops/editmobdrops.cfg"));
+		suggestedConfigFile = event.getSuggestedConfigurationFile();
 	}
 
 	@Mod.EventHandler
@@ -31,7 +32,7 @@ public class EditMobDrops {
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-
+		ConfigHandler.init(new File(suggestedConfigFile.getParentFile() + "/editmobdrops/editmobdrops.cfg"));
 	}
 
 	@Mod.EventHandler

@@ -105,6 +105,6 @@ public class AddedDrop {
 				System.out.println("Couldn't read from NBT file " + nbtFile + ".json");
 			}
 		}
-		return new NBTTagCompound();
+		return null;
 	}
 }

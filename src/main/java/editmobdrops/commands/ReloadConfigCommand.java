@@ -29,7 +29,8 @@ public class ReloadConfigCommand extends CommandBase {
 			} catch (PlayerNotFoundException ignored) {
 				server.logInfo("Config reloaded");
 			}
-		}
+		} else
+			throw new WrongUsageException(getUsage(sender));
 	}
 
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
