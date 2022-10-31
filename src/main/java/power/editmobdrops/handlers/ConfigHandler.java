@@ -1,11 +1,11 @@
 package power.editmobdrops.handlers;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 import power.editmobdrops.AddedDrop;
@@ -51,7 +51,7 @@ public final class ConfigHandler {
 			List<String> rawMobGroupSplit = new ArrayList<>(Arrays.asList(rawMobGroup.split("\\s*:\\s*")));
 			List<EntityType<?>> currentGroup = new ArrayList<>();
 			for (int i = 0; i < rawMobGroupSplit.size() - 1; i += 2) {
-				currentGroup.add(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(rawMobGroupSplit.get(i), rawMobGroupSplit.get(i + 1))));
+				currentGroup.add(ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(rawMobGroupSplit.get(i), rawMobGroupSplit.get(i + 1))));
 			}
 			mobGroups.add(currentGroup);
 		}
@@ -60,7 +60,7 @@ public final class ConfigHandler {
 		for (String rawMobToClear : rawMobsToClear) {
 			List<String> rawMobToClearSplit = new ArrayList<>(Arrays.asList(rawMobToClear.split("\\s*:\\s*")));
 			for (int i = 0; i < rawMobToClearSplit.size() - 1; i += 2) {
-				mobsToClear.add(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(rawMobToClearSplit.get(i), rawMobToClearSplit.get(i + 1))));
+				mobsToClear.add(ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(rawMobToClearSplit.get(i), rawMobToClearSplit.get(i + 1))));
 			}
 		}
 
@@ -74,7 +74,7 @@ public final class ConfigHandler {
 	}
 
 	@SubscribeEvent
-	public static void onModConfigEvent(final ModConfig.ModConfigEvent configEvent) {
+	public static void onModConfigEvent(final ModConfigEvent configEvent) {
 		if (configEvent.getConfig().getSpec() == CONFIG_SPEC) {
 			bakeConfig();
 		}

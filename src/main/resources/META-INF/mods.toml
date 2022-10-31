@@ -1,9 +1,9 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[43,)"
 license="GNU GPLv3"
 [[mods]]
 modId="editmobdrops"
-version="1.4.1"
+version="${file.jarVersion}"
 displayName="Edit Mob Drops"
 authors="Powerthegreat"
 description='''A mod for editing mob drops.'''
