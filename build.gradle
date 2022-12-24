@@ -41,15 +41,12 @@ minecraft {
         
         gameTestServer {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'editmobdrops'
 
             mods {
-                examplemod {
+                editmobdrops {
                     source sourceSets.main
                 }
             }
