@@ -20,10 +20,6 @@ public class ConfigHandler {
 	public static List<List<Class<? extends Entity>>> mobGroups;
 	public static List<Class<? extends Entity>> mobsToClear;
 	public static List<AddedDrop> singleMobItems;
-	//public static String[] itemsToAdd;
-	//public static String[] mobGroups;
-	//public static String[] mobsToClear;
-	//public static String[] singleMobItems;
 
 	public static void init(File configFile) {
 		if (config == null) {
