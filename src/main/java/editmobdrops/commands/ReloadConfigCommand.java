@@ -30,7 +30,8 @@ public class ReloadConfigCommand extends CommandBase {
 			} catch (PlayerNotFoundException ignored) {
 				MinecraftServer.getServer().logInfo("Config reloaded");
 			}
-		}
+		} else
+			throw new WrongUsageException(getCommandUsage(sender));
 	}
 
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
