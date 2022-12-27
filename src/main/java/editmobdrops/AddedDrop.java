@@ -40,7 +40,12 @@ public class AddedDrop {
 		String itemModid, itemName;
 		// Entity data for single mob drops
 		if (singleDrop) {
-			entityFrom = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(dropData.get(0), dropData.get(1))).getEntityClass();
+			try {
+				entityFrom = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(dropData.get(0), dropData.get(1))).getEntityClass();
+			} catch (NullPointerException e) {
+				System.out.println("Failed to find entity " + dropData.get(0) + ":" + dropData.get(1));
+				return;
+			}
 		}
 
 		// Item Data
@@ -49,7 +54,7 @@ public class AddedDrop {
 
 		item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemModid, itemName));
 		try {
-			minStack = Integer.parseInt(dropData.get(singleDrop ? 4 : 2));
+			metadata = Integer.parseInt(dropData.get(singleDrop ? 4 : 2));
 		} catch (NumberFormatException ignored) {
 
 		}
