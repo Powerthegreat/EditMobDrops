@@ -1,5 +1,7 @@
 package editmobdrops;
 
+import java.io.File;
+
 import editmobdrops.commands.ReloadConfigCommand;
 import editmobdrops.handlers.ConfigHandler;
 import editmobdrops.handlers.LivingDropsEventHandler;
@@ -9,8 +11,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-
-import java.io.File;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptableRemoteVersions = "*")
 public class EditMobDrops {

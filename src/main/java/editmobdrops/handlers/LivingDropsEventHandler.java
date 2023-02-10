@@ -1,5 +1,14 @@
 package editmobdrops.handlers;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import editmobdrops.AddedDrop;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,24 +21,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class LivingDropsEventHandler {
-	Random random = new Random();
-
+//	Random random = new Random();
+	
+	// Refreshes configs on world load in order to capture items that weren't available during FMLPostInitializationEvent
+	@SubscribeEvent
+	public void onWorldLoad(Load event) {
+		ConfigHandler.reloadConfig();
+	}
+		
 	// A method to handle LivingDropsEvents
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onMobDrops(LivingDropsEvent event) {
+		
+		Random random = event.getEntityLiving().world.rand;
+		
 		// Setting up variables to make things easier
 		EntityLivingBase entityKilled = event.getEntityLiving();
 		List<ItemStack> itemsToDrop = new ArrayList<>();
@@ -46,7 +56,7 @@ public class LivingDropsEventHandler {
 				if (ConfigHandler.debugMode) {
 					System.out.println("Adding " + itemToAdd.item);
 				}
-				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
+				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 				if (itemToAdd.nbtTag != null) {
 					itemstack.setTagCompound(itemToAdd.nbtTag);
 				}
@@ -60,7 +70,7 @@ public class LivingDropsEventHandler {
 					if (ConfigHandler.debugMode) {
 						System.out.println("Adding " + itemToAdd.item);
 					}
-					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
+					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 					if (itemToAdd.nbtTag != null) {
 						itemstack.setTagCompound(itemToAdd.nbtTag);
 					}
@@ -75,7 +85,7 @@ public class LivingDropsEventHandler {
 					if (ConfigHandler.debugMode) {
 						System.out.println("Adding " + itemToAdd.item);
 					}
-					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
+					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 					if (itemToAdd.nbtTag != null) {
 						itemstack.setTagCompound(itemToAdd.nbtTag);
 					}
@@ -92,7 +102,7 @@ public class LivingDropsEventHandler {
 							if (ConfigHandler.debugMode) {
 								System.out.println("Adding " + itemToAdd.item);
 							}
-							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd), itemToAdd.metadata);
+							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 							if (itemToAdd.nbtTag != null) {
 								itemstack.setTagCompound(itemToAdd.nbtTag);
 							}
@@ -110,7 +120,7 @@ public class LivingDropsEventHandler {
 					// Adding the item
 					if (ConfigHandler.debugMode)
 						System.out.println("Adding " + singleMobItem.item);
-					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem), singleMobItem.metadata);
+					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem, random), singleMobItem.metadata);
 					if (singleMobItem.nbtTag != null) {
 						itemstack.setTagCompound(singleMobItem.nbtTag);
 					}
@@ -147,7 +157,7 @@ public class LivingDropsEventHandler {
 		return itemstack;
 	}
 
-	private int randomStackSize(AddedDrop drop) {
+	private int randomStackSize(AddedDrop drop, Random random) {
 		if (drop.minStack < drop.maxStack) {
 			return random.nextInt(1 + drop.maxStack - drop.minStack) + drop.minStack;
 		} else {
