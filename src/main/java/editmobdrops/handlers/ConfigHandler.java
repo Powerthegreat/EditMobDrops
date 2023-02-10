@@ -1,5 +1,10 @@
 package editmobdrops.handlers;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import editmobdrops.AddedDrop;
@@ -7,11 +12,6 @@ import editmobdrops.Reference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.config.Configuration;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ConfigHandler {
 	public static Configuration config;

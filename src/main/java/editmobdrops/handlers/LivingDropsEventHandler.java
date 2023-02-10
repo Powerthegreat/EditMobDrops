@@ -1,5 +1,9 @@
 package editmobdrops.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import editmobdrops.AddedDrop;
@@ -15,12 +19,16 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import net.minecraftforge.event.world.WorldEvent.Load;
 
 public class LivingDropsEventHandler {
+	
+	// Refreshes configs on world load in order to capture items that weren't available during FMLPostInitializationEvent
+	@SubscribeEvent
+	public void onWorldLoad(Load event) {
+		ConfigHandler.reloadConfig();
+	}
+	
 	// A method to handle LivingDropsEvents
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onMobDrops(LivingDropsEvent event) {
