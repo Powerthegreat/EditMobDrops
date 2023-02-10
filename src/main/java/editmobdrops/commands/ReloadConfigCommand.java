@@ -1,5 +1,7 @@
 package editmobdrops.commands;
 
+import java.util.List;
+
 import editmobdrops.handlers.ConfigHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -7,8 +9,6 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
-
-import java.util.List;
 
 public class ReloadConfigCommand extends CommandBase {
 	public String getCommandName() {
