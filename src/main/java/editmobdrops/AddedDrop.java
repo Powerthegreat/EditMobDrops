@@ -1,14 +1,5 @@
 package editmobdrops;
 
-import editmobdrops.handlers.ConfigHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +8,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import editmobdrops.handlers.ConfigHandler;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class AddedDrop {
 	public boolean valid = false;

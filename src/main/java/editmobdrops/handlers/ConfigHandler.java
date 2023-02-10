@@ -1,5 +1,10 @@
 package editmobdrops.handlers;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import editmobdrops.AddedDrop;
 import editmobdrops.Reference;
 import net.minecraft.entity.Entity;
@@ -8,11 +13,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ConfigHandler {
 	public static Configuration config;
