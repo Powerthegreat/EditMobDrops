@@ -19,7 +19,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.4.3"
+version = "1.4.4"
 group = "editmobdrops"
 archivesBaseName = "editmobdrops-1.7.10"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
