@@ -32,6 +32,9 @@ public class LivingDropsEventHandler {
 	// A method to handle LivingDropsEvents
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onMobDrops(LivingDropsEvent event) {
+		
+		Random random = event.entityLiving.worldObj.rand;
+		
 		// Setting up variables to make things easier
 		EntityLivingBase entityKilled = event.entityLiving;
 		List<ItemStack> itemsToDrop = new ArrayList<>();
@@ -54,12 +57,12 @@ public class LivingDropsEventHandler {
 
 		for (AddedDrop itemToAdd : ConfigHandler.itemsToAdd) {
 			// Universal chance
-			if (event.entityLiving.worldObj.rand.nextDouble() * 100 < itemToAdd.chances.get(0)) {
+			if (random.nextDouble() * 100 < itemToAdd.chances.get(0)) {
 				// Adding the item
 				if (ConfigHandler.debugMode) {
 					System.out.println("Adding " + itemToAdd.item);
 				}
-				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, event.entityLiving.worldObj.rand), itemToAdd.metadata);
+				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 				if (itemToAdd.nbtTag != null) {
 					itemstack.setTagCompound(itemToAdd.nbtTag);
 				}
@@ -68,12 +71,12 @@ public class LivingDropsEventHandler {
 
 			// Monster chance
 			if (entityKilled instanceof EntityMob || entityKilled instanceof EntityDragon || entityKilled instanceof EntityGhast || entityKilled instanceof EntitySlime) {
-				if (event.entityLiving.worldObj.rand.nextDouble() * 100 < itemToAdd.chances.get(1)) {
+				if (random.nextDouble() * 100 < itemToAdd.chances.get(1)) {
 					// Adding the item
 					if (ConfigHandler.debugMode) {
 						System.out.println("Adding " + itemToAdd.item);
 					}
-					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, event.entityLiving.worldObj.rand), itemToAdd.metadata);
+					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 					if (itemToAdd.nbtTag != null) {
 						itemstack.setTagCompound(itemToAdd.nbtTag);
 					}
@@ -83,12 +86,12 @@ public class LivingDropsEventHandler {
 
 			// Boss Chance
 			if (entityKilled instanceof IBossDisplayData) {
-				if (event.entityLiving.worldObj.rand.nextDouble() * 100 < itemToAdd.chances.get(2)) {
+				if (random.nextDouble() * 100 < itemToAdd.chances.get(2)) {
 					// Adding the item
 					if (ConfigHandler.debugMode) {
 						System.out.println("Adding " + itemToAdd.item);
 					}
-					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, event.entityLiving.worldObj.rand), itemToAdd.metadata);
+					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 					if (itemToAdd.nbtTag != null) {
 						itemstack.setTagCompound(itemToAdd.nbtTag);
 					}
@@ -100,12 +103,12 @@ public class LivingDropsEventHandler {
 			for (int i = 0; i < ConfigHandler.mobGroups.size(); i++) {
 				if (ConfigHandler.mobGroups.get(i).contains(entityKilled.getClass())) {
 					if (i + 3 < itemToAdd.chances.size()) {
-						if (event.entityLiving.worldObj.rand.nextDouble() * 100 < itemToAdd.chances.get(i + 3)) {
+						if (random.nextDouble() * 100 < itemToAdd.chances.get(i + 3)) {
 							// Adding the item
 							if (ConfigHandler.debugMode) {
 								System.out.println("Adding " + itemToAdd.item);
 							}
-							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, event.entityLiving.worldObj.rand), itemToAdd.metadata);
+							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random), itemToAdd.metadata);
 							if (itemToAdd.nbtTag != null) {
 								itemstack.setTagCompound(itemToAdd.nbtTag);
 							}
@@ -119,11 +122,11 @@ public class LivingDropsEventHandler {
 		// Single mob items
 		for (AddedDrop singleMobItem : ConfigHandler.singleMobItems) {
 			if (entityKilled.getClass().equals(singleMobItem.entityFrom)) {
-				if (event.entityLiving.worldObj.rand.nextDouble() * 100 < singleMobItem.chances.get(0)) {
+				if (random.nextDouble() * 100 < singleMobItem.chances.get(0)) {
 					// Adding the item
 					if (ConfigHandler.debugMode)
 						System.out.println("Adding " + singleMobItem.item);
-					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem, event.entityLiving.worldObj.rand), singleMobItem.metadata);
+					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem, random), singleMobItem.metadata);
 					if (singleMobItem.nbtTag != null) {
 						itemstack.setTagCompound(singleMobItem.nbtTag);
 					}

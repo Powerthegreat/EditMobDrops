@@ -104,8 +104,6 @@ public class AddedDrop {
 				File file = new File(ConfigHandler.config.getConfigFile().getParentFile(), nbtFile + ".json");
 				if (file.exists() && file.canRead()) {
 					String fileContents = new String(Files.readAllBytes(Paths.get(file.toString())), StandardCharsets.US_ASCII);
-					System.out.println(fileContents);
-					System.out.println(JsonToNBT.func_150315_a(fileContents));
 					return (NBTTagCompound) JsonToNBT.func_150315_a(fileContents);
 				} else {
 					System.out.println("NBT file " + nbtFile + ".json not found");
