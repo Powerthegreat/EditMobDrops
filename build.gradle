@@ -5,13 +5,9 @@ buildscript {
             name = "forge"
             url = "https://maven.minecraftforge.net/"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
             changing = true
         }
     }
@@ -23,6 +19,7 @@ version = "1.4.4"
 group = "editmobdrops"
 archivesBaseName = "editmobdrops-1.7.10"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+sourceSets { main { output.resourcesDir = output.classesDirs.singleFile } }
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
@@ -36,6 +33,7 @@ dependencies {
 
 processResources
 {
+    duplicatesStrategy("warn")
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
