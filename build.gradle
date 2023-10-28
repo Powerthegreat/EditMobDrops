@@ -4,35 +4,55 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath("net.minecraftforge.gradle:ForgeGradle:5.+") {
+            changing: true
+        }
     }
 }
-        
+
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 version = "1.4.3"
 group = "editmobdrops"
 archivesBaseName = "editmobdrops-1.12.2"
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+sourceSets { main { output.resourcesDir = output.classesDirs.singleFile } }
 
 minecraft {
-    mappings channel: 'snapshot', version: '20171003-1.12'
+    mappings channel: 'stable', version: '39-1.12'
 
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'editmobdrops'
+
+            mods {
+                editmobdrops {
+                    source sourceSets.main
+                }
+            }
         }
 
         server {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'editmobdrops'
+
+            mods {
+                editmobdrops {
+                    source sourceSets.main
+                }
+            }
         }
     }
+
+
+}
+
+repositories {
 }
 
 dependencies {
@@ -46,24 +66,25 @@ jar {
             "Specification-Vendor": "Powerthegreat",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
+            "Implementation-Version": "$archiveVersion",
             "Implementation-Vendor" :"Powerthegreat",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
 
-jar.finalizedBy('reobfJar') 
+processResources {
+    duplicatesStrategy('warn')
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', minecraft.mappingVersion
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':minecraft.mappingVersion
     }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
