@@ -18,14 +18,13 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Reference.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class LivingDropsEventHandler {
-	private static final Random random = new Random();
-
 	// A method to handle LivingDropsEvents
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onMobDrops(LivingDropsEvent event) {
 		// Setting up variables to make things easier
 		LivingEntity entityKilled = event.getEntityLiving();
 		List<ItemStack> itemsToDrop = new ArrayList<>();
+		Random random = entityKilled.level.getRandom();
 
 		for (EntityType<?> mobToClear : ConfigHandler.mobsToClear) {
 			if (entityKilled.getType().equals(mobToClear)) {
@@ -41,7 +40,7 @@ public final class LivingDropsEventHandler {
 				if (ConfigHandler.debugMode) {
 					System.out.println("Adding " + itemToAdd.item);
 				}
-				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
+				ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random));
 				if (itemToAdd.nbtTag != null) {
 					itemstack.setTag(itemToAdd.nbtTag);
 				}
@@ -55,7 +54,7 @@ public final class LivingDropsEventHandler {
 					if (ConfigHandler.debugMode) {
 						System.out.println("Adding " + itemToAdd.item);
 					}
-					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
+					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random));
 					if (itemToAdd.nbtTag != null) {
 						itemstack.setTag(itemToAdd.nbtTag);
 					}
@@ -70,7 +69,7 @@ public final class LivingDropsEventHandler {
 					if (ConfigHandler.debugMode) {
 						System.out.println("Adding " + itemToAdd.item);
 					}
-					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
+					ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random));
 					if (itemToAdd.nbtTag != null) {
 						itemstack.setTag(itemToAdd.nbtTag);
 					}
@@ -87,7 +86,7 @@ public final class LivingDropsEventHandler {
 							if (ConfigHandler.debugMode) {
 								System.out.println("Adding " + itemToAdd.item);
 							}
-							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd));
+							ItemStack itemstack = new ItemStack(itemToAdd.item, randomStackSize(itemToAdd, random));
 							if (itemToAdd.nbtTag != null) {
 								itemstack.setTag(itemToAdd.nbtTag);
 							}
@@ -105,7 +104,7 @@ public final class LivingDropsEventHandler {
 					// Adding the item
 					if (ConfigHandler.debugMode)
 						System.out.println("Adding " + singleMobItem.item);
-					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem));
+					ItemStack itemstack = new ItemStack(singleMobItem.item, randomStackSize(singleMobItem, random));
 					if (singleMobItem.nbtTag != null) {
 						itemstack.setTag(singleMobItem.nbtTag);
 					}
@@ -123,7 +122,7 @@ public final class LivingDropsEventHandler {
 		}
 	}
 
-	private static int randomStackSize(AddedDrop drop) {
+	private static int randomStackSize(AddedDrop drop, Random random) {
 		if (drop.minStack < drop.maxStack) {
 			return random.nextInt(1 + drop.maxStack - drop.minStack) + drop.minStack;
 		} else {
