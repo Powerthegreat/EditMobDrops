@@ -1,11 +1,11 @@
 package power.editmobdrops;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AddedDrop {
 	public boolean valid = false;
 	public Item item;
-	public CompoundNBT nbtTag;
+	public CompoundTag nbtTag;
 	public int minStack = 1;
 	public int maxStack = 1;
 	public List<Double> chances = new ArrayList<>();
@@ -82,13 +82,13 @@ public class AddedDrop {
 		valid = true;
 	}
 
-	private static CompoundNBT parseNBTFile(String nbtFile) {
+	private static CompoundTag parseNBTFile(String nbtFile) {
 		if (!nbtFile.isEmpty()) {
 			try {
 				File file = new File(Reference.CONFIG_PATH, nbtFile + ".json");
 				if (file.exists() && file.canRead()) {
-					String fileContents = new String(Files.readAllBytes(Paths.get(file.toString())), StandardCharsets.US_ASCII);
-					return JsonToNBT.parseTag(fileContents);
+					String fileContents = Files.readString(Paths.get(file.toString()), StandardCharsets.US_ASCII);
+					return TagParser.parseTag(fileContents);
 				} else {
 					System.out.println("NBT file " + nbtFile + ".json not found");
 				}
