@@ -2,8 +2,8 @@ package power.editmobdrops.handlers;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -48,7 +48,7 @@ public final class LivingDropsEventHandler {
 			}
 
 			// Monster chance
-			if (entityKilled instanceof MobEntity) {
+			if (entityKilled instanceof IMob) {
 				if (random.nextDouble() * 100 < itemToAdd.chances.get(1)) {
 					// Adding the item
 					if (ConfigHandler.debugMode) {
